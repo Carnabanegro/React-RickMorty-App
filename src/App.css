@@ -1,0 +1,45 @@
+  .App{
+    flex-grow: 1;
+    background-color: #3d3d3d;
+    height:  100%;
+    width: 100%;
+  }
+  
+  
+  .link{
+    text-align: center;
+    width: 100%;
+    color:black;
+    font-family: Arial, sans-serif;
+    font-weight: 800;
+    background-color: #4b4b4b;
+    padding: 20px 10px;
+    box-sizing: border-box;
+    transition: all .3s;
+    cursor: pointer;
+    border: 2px solid black;
+    border-radius: 8px;
+  }
+
+  
+  .active{
+    background-color:#d2dae2;
+    font-size: 1.2rem;
+  }
+  
+  .filter-container{
+    background-color: #d2dae2;
+    padding: 10px;
+    height:  100%;
+    max-width: 100%;
+    border-style: solid;
+  }
+  
+ .container2{
+   height:  100%;
+   width: 100%;
+ }
+ .container3{
+   height:  100%;
+   width: 100%;
+ }
