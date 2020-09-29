@@ -5,16 +5,40 @@ import { Grid} from '@material-ui/core';
 import {removeCharactersAction,getCharactersAction} from '../../redux/charsDuck';
 import {removeEpisodesAction,getEpisodesAction} from '../../redux/epiDuck';
 import {removeLocationsAction,getLocationsAction} from '../../redux/locDuck';
+import {updateCurrentSearchAction,updateBySearchAction} from '../../redux/searchDuck';
 
-function Searcher({searchType,removeEpisodesAction,getEpisodesAction,getCharactersAction,removeCharactersAction,removeLocationsAction,getLocationsAction}) {
 
-    //const [input,setInput] = React.useState("");
-    const [select,setSelect] = React.useState("name");
-    let input 
+function Searcher({
+    updateCurrentSearchAction,
+    updateBySearchAction,
+    searchType,
+    removeEpisodesAction,
+    getEpisodesAction,
+    getCharactersAction,
+    removeCharactersAction,
+    removeLocationsAction,
+    getLocationsAction
+}) {
 
-    console.log(searchType)
+    const [input,setInput] = React.useState("");
+    const [select,setSelect] = React.useState("name"); 
+
+    function keyHandler(e) {
+        if (e.key=== 'Enter'){
+            removeCharactersAction()
+            removeEpisodesAction()
+            removeLocationsAction()
+            searchHandler()
+        }
+    }
+
     function inputHandler(event) {
-        input = event.target.value
+        setInput(event.target.value)
+        updateCurrentSearchAction(event.target.value);
+    }
+
+    function searchHandler() {
+        
         if (searchType === "characters"){
             searchCharactersHandler(input);
         }
@@ -31,7 +55,7 @@ function Searcher({searchType,removeEpisodesAction,getEpisodesAction,getCharacte
             removeCharactersAction()
         }
         if (input.trim().length >2) {
-                getCharactersAction(input,select);
+                getCharactersAction(1,input,select);
         }
     }
 
@@ -40,7 +64,7 @@ function Searcher({searchType,removeEpisodesAction,getEpisodesAction,getCharacte
             removeLocationsAction()
         }
         if (input.trim().length >2) {
-                getLocationsAction(input,select);
+                getLocationsAction(1,input,select);
         }
     }
 
@@ -49,18 +73,20 @@ function Searcher({searchType,removeEpisodesAction,getEpisodesAction,getCharacte
             removeEpisodesAction()
         }
         if (input.trim().length >2) {
-                getEpisodesAction(input);
+                getEpisodesAction(1,input);
         }
     }
 
     function cleanHandler(){
         removeCharactersAction();
         removeEpisodesAction();
+        removeLocationsAction()
     }
 
     function handleSelect(event){
         setSelect(event)
-        input = ""
+        updateBySearchAction(event)
+        setInput("")
     }
     return (
         <Grid container fluid>
@@ -69,10 +95,10 @@ function Searcher({searchType,removeEpisodesAction,getEpisodesAction,getCharacte
                     <Grid container  item xs={11}>
                         <InputGroup>
                             <FormControl
-                                placeholder="search"
-                                defaultValue={""} 
+                                placeholder="search" 
                                 value= {input}  
-                                onChangeCapture={inputHandler}
+                                onChange={inputHandler}
+                                onKeyPress={keyHandler}
                             />
                             <DropdownButton
                                 as={InputGroup.Append}
@@ -86,16 +112,26 @@ function Searcher({searchType,removeEpisodesAction,getEpisodesAction,getCharacte
                         </InputGroup>
                     </Grid >
                     <Grid item xs={1}>
-                        <Button variant="danger" color="secondary" onClick={cleanHandler}>Clean</Button> 
+                        <Button variant="danger" color="secondary" onClick={cleanHandler}>Clean</Button>
                     </Grid>
                 </Grid>
             </Grid>
         </Grid>
     )  
 }
-function mapState({ characters:{ currentSearch } } ){
+function mapState({search, characters:{ currentSearch } } ){
     return {
-        currentSearch     
+        currentSearch,
+
     }
 }
-export default connect(mapState, {removeEpisodesAction,getEpisodesAction,getCharactersAction,removeCharactersAction,getLocationsAction,removeLocationsAction})(Searcher);
+export default connect(mapState, {
+    updateCurrentSearchAction,
+    updateBySearchAction,
+    removeEpisodesAction,
+    getEpisodesAction,
+    getCharactersAction,
+    removeCharactersAction,
+    getLocationsAction,
+    removeLocationsAction
+})(Searcher);

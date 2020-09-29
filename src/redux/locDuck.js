@@ -1,10 +1,12 @@
-import ApolloClient, { gql } from 'apollo-boost'
-
+import ApolloClient, { gql } from 'apollo-boost';
+import {updatePagesSearchAction} from './searchDuck';
 //constant
 let initialData={
 	fetching: false,
 	array: [],//array of locations
-	currentSearch: "",	
+    //currentSearch: "",
+    //pages: 0,
+    //typeSearch: "name"	
 }
 
 let client = new ApolloClient({
@@ -17,17 +19,17 @@ let GET_LOCATIONS_ERROR = "GET_LOCATIONS_ERROR"
 
 let REMOVE_LOCATIONS = "REMOVE_LOCATIONS"
 
-let UPDATE_PAGE = "UPDATE_PAGE"
+//let UPDATE_PAGE_LOC = "UPDATE_PAGE_LOC"
 
 
 export default function reducer(state=initialData, action){
 	switch(action.type){
-		case UPDATE_PAGE:
-			return {...state, nextPage: action.payload}
+		//case UPDATE_PAGE_LOC:
+		//	return {...state, pages: action.payload}
 		case REMOVE_LOCATIONS:
-			return {...state, array: action.payload }
+			return {...state, array: action.payload}
 		case GET_LOCATIONS:
-			return{ ...state, currentSearch: action.payload, fetching: true }
+			return{ ...state, fetching: true }
 		case GET_LOCATIONS_ERROR:
 			return{ ...state,array: [], fetching:false, error: action.payload}
 		case GET_LOCATIONS_SUCCESS:
@@ -52,13 +54,13 @@ export const removeLocationsAction = () => (dispatch, getState) =>{
 
 
 
-export let getLocationsAction = (value,select) => (dispatch) => {
+export let getLocationsAction = (page,value,select) => (dispatch,getState) => {
     let searchValue = value;
     let searchSelect = select;
     let query
     if (searchSelect === "name"){
-        query = gql`query ($search:String){
-            locations(filter:{name:$search}){
+        query = gql`query ($page:Int,$search:String){
+            locations(page:$page,filter:{name:$search}){
                 info{
                   pages
                   next
@@ -78,8 +80,8 @@ export let getLocationsAction = (value,select) => (dispatch) => {
         }
         `
     }else{
-        query = gql`query ($search:String){
-            locations(filter:{type:$search}){
+        query = gql`query ($page:Int,$search:String){
+            locations(page:$page,filter:{type:$search}){
                 info{
                   pages
                   next
@@ -99,25 +101,30 @@ export let getLocationsAction = (value,select) => (dispatch) => {
         }
         `
     }
+
+    const  dataInfo = {
+        searchSelect,
+        searchValue
+    }
     
     dispatch({
         type: GET_LOCATIONS,
-        payload: searchValue
+        payload: dataInfo
     })
         return client.query({
             query,
-            variables: { search: searchValue }
+            variables: { search: searchValue, page }
         })
             .then(({ data}) => {
+                updatePagesSearchAction(data.locations.info.pages)(dispatch,getState)
                 dispatch({
                     type: GET_LOCATIONS_SUCCESS,
                     payload: data.locations.results
                 })
-                console.log(data.locations.info.next)
-                dispatch({
-                    type: UPDATE_PAGE,
-                    payload: data.locations.info.next ? data.locations.info.next : 1
-                })
+                /*dispatch({
+                    type: UPDATE_PAGE_LOC,
+                    payload: data.locations.info.pages 
+                })*/
                 
             })
             .catch(error =>{

@@ -1,10 +1,11 @@
 import ApolloClient, { gql } from 'apollo-boost'
-
+import {updatePagesSearchAction} from './searchDuck';
 //constant
 let initialData={
 	fetching: false,
 	array: [],//array of episodes
-	currentSearch: "",	
+    //currentSearch: "",
+    //pages: 0,
 }
 
 let client = new ApolloClient({
@@ -17,17 +18,17 @@ let GET_EPISODES_ERROR = "GET_EPISODES_ERROR"
 
 let REMOVE_EPISODES = "REMOVE_EPISODES"
 
-let UPDATE_PAGE = "UPDATE_PAGE"
+//let UPDATE_PAGE_EPI = "UPDATE_PAGE_EPI"
 
 
 export default function reducer(state=initialData, action){
 	switch(action.type){
-		case UPDATE_PAGE:
-			return {...state, nextPage: action.payload}
+		//case UPDATE_PAGE_EPI:
+		//	return {...state, pages: action.payload}
 		case REMOVE_EPISODES:
-			return {...state, array: action.payload }
+			return {...state, array: action.payload}
 		case GET_EPISODES:
-			return{ ...state, currentSearch: action.payload, fetching: true }
+			return{ ...state,  fetching: true }
 		case GET_EPISODES_ERROR:
 			return{ ...state,array: [], fetching:false, error: action.payload}
 		case GET_EPISODES_SUCCESS:
@@ -52,11 +53,10 @@ export const removeEpisodesAction = () => (dispatch, getState) =>{
 
 
 
-export let getEpisodesAction = (value) => (dispatch) => {
-    let nameValue = value
-    console.log(nameValue)
-    let query = gql`query ($name:String){
-        episodes(filter:{name:$name}){
+export let getEpisodesAction = (page,value) => (dispatch,getState) => {
+    let searchValue = value
+    let query = gql`query ($page:Int,$name:String){
+        episodes(page:$page,filter:{name:$name}){
             info{
               pages
               next
@@ -77,22 +77,22 @@ export let getEpisodesAction = (value) => (dispatch) => {
     `
     dispatch({
         type: GET_EPISODES,
-        payload: nameValue
+        payload: searchValue
     })
         return client.query({
             query,
-            variables: { name: nameValue }
+            variables: { name: searchValue, page }
         })
             .then(({ data}) => {
+                updatePagesSearchAction(data.episodes.info.pages)(dispatch,getState)
                 dispatch({
                     type: GET_EPISODES_SUCCESS,
                     payload: data.episodes.results
                 })
-                console.log(data.episodes.info.next)
-                dispatch({
-                    type: UPDATE_PAGE,
-                    payload: data.episodes.info.next ? data.episodes.info.next : 1
-                })
+               /* dispatch({
+                    type: UPDATE_PAGE_EPI,
+                    payload: data.episodes.info.pages //? //data.episodes.info.next : 1
+                })*/
                 
             })
             .catch(error =>{

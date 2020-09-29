@@ -5,6 +5,7 @@ import Routes from './routes/Routes';
 import Filter from './components/filter/Filter'
 import Searcher from './components/searcher/Searcher'
 import { Grid} from '@material-ui/core';
+import CustomPagination from './components/pagination/CustomPagination';
 export default function App() {
 
   const [search,setSearch] =React.useState("");
@@ -32,8 +33,11 @@ export default function App() {
                   <Grid container  item xs={12}>
                     <Searcher searchType={search}/>
                   </Grid>
-                  <Grid Item xs={12}>
+                  <Grid item xs={12}>
                     <Routes />
+                  </Grid>
+                  <Grid container item xs={12} direction="row" justify="center" alignItems="flex-start">
+                    <CustomPagination searchType={search} />
                   </Grid>
                 </Grid>
               </Grid>

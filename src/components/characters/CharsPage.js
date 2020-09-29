@@ -5,13 +5,12 @@ import {Grid} from '@material-ui/core';
 
 function CharsPage({chars}) {
 
-
         return (
             <Grid container spacing={3} >
                 <Grid item xs={12} >
                     <Grid container justify="flex-start"  >
                         {chars.map((value)=>
-                            <Grid  key={value} spacing={1}>
+                            <Grid  spacing={1}>
                                 <CardCharacter  
                                     name={value.name} 
                                     type={value.type} 
@@ -21,8 +20,9 @@ function CharsPage({chars}) {
                                 />
                             </Grid>)}
                     </Grid>
-                </Grid>   
+                </Grid> 
             </Grid>
+            
         )
     }
     function mapState(state){

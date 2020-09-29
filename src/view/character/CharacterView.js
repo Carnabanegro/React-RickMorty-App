@@ -25,7 +25,7 @@ export default function CharacterView({image,name,type,genre,species}) {
               <Modal.Header closeButton>
                 <Grid Container  >
                     <Grid  item  >
-                      <img src={image}/>
+                      <img alt='rick' src={image}/>
                     </Grid>
                     <Grid item >
                       <Modal.Title>{name}</Modal.Title>
