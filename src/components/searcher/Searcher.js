@@ -5,13 +5,14 @@ import { Grid} from '@material-ui/core';
 import {removeCharactersAction,getCharactersAction} from '../../redux/charsDuck';
 import {removeEpisodesAction,getEpisodesAction} from '../../redux/epiDuck';
 import {removeLocationsAction,getLocationsAction} from '../../redux/locDuck';
-import {updateCurrentSearchAction,updateBySearchAction} from '../../redux/searchDuck';
+import {updateCurrentSearchAction,updateBySearchAction,updatePagesSearchAction} from '../../redux/searchDuck';
 
 
 function Searcher({
     updateCurrentSearchAction,
     updateBySearchAction,
-    searchType,
+    updatePagesSearchAction,
+    filterSearch,
     removeEpisodesAction,
     getEpisodesAction,
     getCharactersAction,
@@ -25,34 +26,35 @@ function Searcher({
 
     function keyHandler(e) {
         if (e.key=== 'Enter'){
-            removeCharactersAction()
-            removeEpisodesAction()
-            removeLocationsAction()
-            searchHandler()
+                removeCharactersAction();
+                removeLocationsAction();
+                removeEpisodesAction();
+                searchHandler();
+                setInput("");  
         }
     }
 
     function inputHandler(event) {
-        setInput(event.target.value)
+        setInput(event.target.value);
         updateCurrentSearchAction(event.target.value);
     }
 
     function searchHandler() {
         
-        if (searchType === "characters"){
+        if (filterSearch === "characters"){
             searchCharactersHandler(input);
         }
-        if (searchType === "episodes"){
+        if (filterSearch === "episodes"){
             searchEpisodesHandler(input);
         }
-        if (searchType === "locations"){
+        if (filterSearch === "locations"){
             searchLocationsHandler(input);
         }
     }
 
     function searchCharactersHandler(input) {
         if (input.trim() === ""){
-            removeCharactersAction()
+            removeCharactersAction();
         }
         if (input.trim().length >2) {
                 getCharactersAction(1,input,select);
@@ -61,7 +63,7 @@ function Searcher({
 
     function searchLocationsHandler(input) {
         if (input.trim() === ""){
-            removeLocationsAction()
+            removeLocationsAction();
         }
         if (input.trim().length >2) {
                 getLocationsAction(1,input,select);
@@ -70,7 +72,7 @@ function Searcher({
 
     function searchEpisodesHandler(input) {
         if (input.trim() === ""){
-            removeEpisodesAction()
+            removeEpisodesAction();
         }
         if (input.trim().length >2) {
                 getEpisodesAction(1,input);
@@ -78,15 +80,24 @@ function Searcher({
     }
 
     function cleanHandler(){
-        removeCharactersAction();
-        removeEpisodesAction();
-        removeLocationsAction()
+        if (filterSearch === "characters") {
+            removeCharactersAction();
+        }
+        if (filterSearch === "episodes") {
+            removeEpisodesAction();
+        }
+        if (filterSearch === "locations") {
+            removeLocationsAction();
+        }
+        setInput("")
+        updatePagesSearchAction(0)
     }
 
     function handleSelect(event){
-        setSelect(event)
-        updateBySearchAction(event)
-        setInput("")
+        setSelect(event);
+        updateBySearchAction(event);
+        setInput("");
+       
     }
     return (
         <Grid container fluid>
@@ -99,6 +110,7 @@ function Searcher({
                                 value= {input}  
                                 onChange={inputHandler}
                                 onKeyPress={keyHandler}
+                                onReset
                             />
                             <DropdownButton
                                 as={InputGroup.Append}
@@ -107,7 +119,7 @@ function Searcher({
                                 variant="danger"
                             >
                                 <Dropdown.Item  eventKey="name"  href="#">Name</Dropdown.Item>
-                                <Dropdown.Item   disabled={searchType === "episodes"} eventKey="type" href="#">Type</Dropdown.Item>
+                                <Dropdown.Item   disabled={filterSearch === "episodes"} eventKey="type" href="#">Type</Dropdown.Item>
                             </DropdownButton>
                         </InputGroup>
                     </Grid >
@@ -119,14 +131,16 @@ function Searcher({
         </Grid>
     )  
 }
-function mapState({search, characters:{ currentSearch } } ){
+function mapState({search, characters } ){
     return {
-        currentSearch,
+        
+        filterSearch:search.filterSearch
 
     }
 }
 export default connect(mapState, {
     updateCurrentSearchAction,
+    updatePagesSearchAction,
     updateBySearchAction,
     removeEpisodesAction,
     getEpisodesAction,

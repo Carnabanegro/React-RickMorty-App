@@ -1,11 +1,6 @@
-  .App{
-    flex-grow: 1;
-    background-color: #3d3d3d;
-    height:  100%;
-    width: 100%;
+  .app{
+    flex-grow: 1
   }
-  
-  
   .link{
     text-align: center;
     width: 100%;
@@ -28,18 +23,13 @@
   }
   
   .filter-container{
-    background-color: #d2dae2;
-    padding: 10px;
-    height:  100%;
-    max-width: 100%;
-    border-style: solid;
+
   }
   
- .container2{
-   height:  100%;
-   width: 100%;
- }
- .container3{
-   height:  100%;
-   width: 100%;
- }
+
+
+
+.footer-container{
+  padding: 3, 2;
+  margin-top: 'auto';
+}

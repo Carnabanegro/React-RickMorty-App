@@ -27,7 +27,8 @@ function CustomPagination({
   getEpisodesAction,
   getCharactersAction,
   getLocationsAction,
-  searchType
+  //searchType
+  filterSearch
 }) {
 
   const classes = useStyles();
@@ -36,20 +37,20 @@ function CustomPagination({
     setPage(value)
     //console.log(page, "soy la pagina")
     //console.log(pages, "soy las paginas")
-    if (searchType === "characters"){
+    if (filterSearch === "characters"){
       getCharactersAction(page,currentSearch,typeSearch)
     }
-    if (searchType === "locations"){
+    if (filterSearch === "locations"){
       getLocationsAction(page,currentSearch,typeSearch)
     }
-    if (searchType === "episodes"){
+    if (filterSearch === "episodes"){
       getEpisodesAction(page,currentSearch)
     } 
   
   }
   return (
     <div className={classes.root}>
-      <Pagination hidden={pages<=1} page={page}  count={pages} color="secondary" onChange={handleChange} />
+      <Pagination hidden={pages<=1} page={page}   count={pages} color="secondary" onChange={handleChange} />
     </div>
   );
 
@@ -66,7 +67,8 @@ function mapState(state){
         //currentSearchLocs: state.locations.currentSearch
         pages:state.search.pages,
         currentSearch:state.search.currentSearch,
-        typeSearch:state.search.typeSearch
+        typeSearch:state.search.typeSearch,
+        filterSearch:state.search.filterSearch
     }
 }
 export default connect(mapState,{getEpisodesAction,getCharactersAction,getLocationsAction,})(CustomPagination);

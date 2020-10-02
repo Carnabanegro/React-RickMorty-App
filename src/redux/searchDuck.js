@@ -3,12 +3,14 @@ let initialData={
 	fetching: false,
     currentSearch: "",
     pages: 0,
-    typeSearch: "name"
+	typeSearch: "name",
+	filterSearch: "characters"
 }
 
 let UPDATE_CURRENT_SEARCH = "UPDATE_CURRENT_SEARCH"
 let UPDATE_BY_SEARCH = "UPDATE_BY_SEARCH"
 let UPDATE_PAGES_SEARCH = "UPDATE_PAGES_SEARCH"
+let UPDATE_FILTER_SEARCH = "UPDATE_FILTER_SEARCH"
 
 export default function reducer(state=initialData, action){
 	switch(action.type){
@@ -17,7 +19,9 @@ export default function reducer(state=initialData, action){
         case UPDATE_BY_SEARCH:
             return {...state, typeSearch:action.payload}
         case UPDATE_PAGES_SEARCH:
-            return {...state, pages:action.payload}
+			return {...state, pages:action.payload}
+		case UPDATE_FILTER_SEARCH:
+			return {...state, filterSearch:action.payload}
 		default:
 			return state
 	}
@@ -25,7 +29,6 @@ export default function reducer(state=initialData, action){
 
 
 export const updateCurrentSearchAction = (value) => (dispatch, getState) =>{
-	//Donde los busco?
 	dispatch({
 		type: UPDATE_CURRENT_SEARCH,
 		payload: value
@@ -34,9 +37,15 @@ export const updateCurrentSearchAction = (value) => (dispatch, getState) =>{
 
 
 export const updateBySearchAction = (value) => (dispatch, getState) =>{
-	//Donde los busco?
 	dispatch({
 		type: UPDATE_BY_SEARCH,
+		payload: value
+	})
+}
+
+export const updateFilterSearchAction = (value) => (dispatch, getState) =>{
+	dispatch({
+		type: UPDATE_FILTER_SEARCH,
 		payload: value
 	})
 }

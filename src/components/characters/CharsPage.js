@@ -2,15 +2,14 @@ import React from 'react'
 import CardCharacter from '../card/CardCharacter'
 import { connect } from 'react-redux'
 import {Grid} from '@material-ui/core';
-
+import CustomPagination from '../pagination/CustomPagination';
 function CharsPage({chars}) {
 
         return (
-            <Grid container spacing={3} >
-                <Grid item xs={12} >
-                    <Grid container justify="flex-start"  >
+            <div>
+                <Grid container xs={12} justify="flex-start" >
                         {chars.map((value)=>
-                            <Grid  spacing={1}>
+                            <Grid item>
                                 <CardCharacter  
                                     name={value.name} 
                                     type={value.type} 
@@ -19,9 +18,12 @@ function CharsPage({chars}) {
                                     genre={value.gender}
                                 />
                             </Grid>)}
-                    </Grid>
-                </Grid> 
-            </Grid>
+                </Grid>
+                <div >
+                    <CustomPagination />
+                </div>
+                
+            </div>
             
         )
     }
