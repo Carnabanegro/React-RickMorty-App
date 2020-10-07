@@ -1,0 +1,26 @@
+.button{
+    background-color: #ffffff;
+    border: #ffffff;
+    color:#dc004e;
+    font-weight: 500;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.modal{
+    background-color: #ffffff;
+}
+.modalParts{
+    background-color: #dc004e;
+    color:#ffffff ;
+    font-family: Georgia, 'Times New Roman', Times, serif; 
+}
+.charac-data{
+    background-color:#ffffff ;
+    color:#dc004e;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    border-color: #3742fa;
+    border-style: solid;
+}
+.img{
+    border-color:#3742fa ;
+    border-style: solid;
+}

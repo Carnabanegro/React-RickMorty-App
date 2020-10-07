@@ -1,0 +1,9 @@
+.loadContainer{
+    padding-top: 100px;
+}
+.errorContainer{
+    padding-top: 100px;
+}
+.errorMessage{
+    color:#10ac84
+}

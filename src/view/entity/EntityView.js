@@ -2,6 +2,7 @@ import React from 'react';
 import { Modal,Container, Button } from 'react-bootstrap';
 import {Grid} from '@material-ui/core';
 import {Card, CardBody, CardImg, CardTitle} from 'reactstrap';
+import '../view.css';
 
 export default function EntityView({chars,data1,data2,data3, tittle1, tittle2}) {
 
@@ -11,22 +12,23 @@ export default function EntityView({chars,data1,data2,data3, tittle1, tittle2}) 
   
     return (
         <Container>
-            <Button variant="primary" onClick={handleShow}>
+            <Button className="button" onClick={handleShow}>
                 More
             </Button>
 
             <Modal
+              className="modal"
               show={show}
               onHide={handleClose}
               backdrop="static"
               keyboard={false}
             >
-              <Modal.Header closeButton>
+              <Modal.Header closeButton className="modalParts">
                 <Modal.Title>{data1}</Modal.Title>
               </Modal.Header>
-              <Modal.Body>
-                <Modal.Dialog> {tittle1} : {data2}</Modal.Dialog>
-                <Modal.Dialog> {tittle2} : {data3}</Modal.Dialog>
+              <Modal.Body className="modalParts">
+                <Modal.Dialog className="charac-data"> {tittle1} : {data2}</Modal.Dialog>
+                <Modal.Dialog className="charac-data"> {tittle2} : {data3}</Modal.Dialog>
                 <Grid container spacing={3} justify="flex-start" >
                   {chars.slice(0, 5).map((value)=>
                     <Grid  key={value} spacing={1} item>

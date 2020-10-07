@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import {AppBar,Toolbar,Button} from '@material-ui/core/';
 import { NavLink } from 'react-router-dom';
 import HomeIcon from '@material-ui/icons/Home';
+import SearchIcon from '@material-ui/icons/Search';
+import {connect} from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header() {
+const Header = ({filter}) =>{
   const classes = useStyles();
 
   return (
@@ -26,8 +28,18 @@ export default function Header() {
             <Button component={NavLink} to="/"> 
                 <HomeIcon style={{ fontSize: 40 }}  />
             </Button>
+            <Button component={NavLink} to={`/searchPage/${filter}`}> 
+                <SearchIcon style={{ fontSize: 40 }}  />
+            </Button>
         </Toolbar>
       </AppBar>
     </div>
   );
 }
+
+function mapState({search} ){
+  return {
+    filter:search.filterSearch
+  }
+}
+export default connect(mapState)(Header)

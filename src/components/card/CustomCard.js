@@ -7,7 +7,7 @@ export default function CustomCard({chars,name,dataInfo,dataInfo2,tittle1,tittle
         <Container xs={12} fluid>
             <Card>
                 <CardBody>
-                    <CardTitle>
+                    <CardTitle className="cardTitle">
                         {dataInfo} : {name}
                     </CardTitle>
                     <EntityView 

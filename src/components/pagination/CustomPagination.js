@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import {getCharactersAction} from '../../redux/charsDuck';
 import {getEpisodesAction} from '../../redux/epiDuck';
 import {getLocationsAction} from '../../redux/locDuck';
+import {updateCharCurrentPageAction,updateEpiCurrentPageAction,updateLocCurrentPageAction} from '../../redux/searchDuck';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
@@ -14,61 +16,67 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function CustomPagination({
-  //currentSearchEpis,
-  //currentSearchChars,
-  //currentSearchLocs,
-  //pagesChars,
-  //pagesEpis,
-  //pagesLocs,
-  //searchBy,
+  ///////////FOR UPDATE PAGES//////////
+  updateCharCurrentPageAction,
+  updateEpiCurrentPageAction,
+  updateLocCurrentPageAction,
+  ///////////ACTUAL PAGE AND TOTAL PAGES////////////
+  currentPage,
   pages,
-  currentSearch,
-  typeSearch,
+  /////////////CURRENT SEARCH/////////////
+  charCurrentSearch,
+  epiCurrentSearch,
+  locCurrentSearch,
+  /////////////TYPE SEARCH /////////
+  charTypeSearch,
+  locTypeSearch,
+  ///////////ACTIONS NEEDED/////////
   getEpisodesAction,
   getCharactersAction,
   getLocationsAction,
-  //searchType
   filterSearch
 }) {
-
   const classes = useStyles();
-  const [page,setPage] = React.useState(1)
+  
+
   function handleChange(event,value){
-    setPage(value)
-    //console.log(page, "soy la pagina")
-    //console.log(pages, "soy las paginas")
     if (filterSearch === "characters"){
-      getCharactersAction(page,currentSearch,typeSearch)
+      getCharactersAction(value,charCurrentSearch,charTypeSearch)
+      updateCharCurrentPageAction(value);
+      console.log(charTypeSearch)
     }
     if (filterSearch === "locations"){
-      getLocationsAction(page,currentSearch,typeSearch)
+      console.log(locTypeSearch)
+      getLocationsAction(value,locCurrentSearch,locTypeSearch)
+      updateLocCurrentPageAction(value);
     }
     if (filterSearch === "episodes"){
-      getEpisodesAction(page,currentSearch)
+      getEpisodesAction(value,epiCurrentSearch)
+      updateEpiCurrentPageAction(value);
     } 
-  
   }
   return (
     <div className={classes.root}>
-      <Pagination hidden={pages<=1} page={page}   count={pages} color="secondary" onChange={handleChange} />
+      <Pagination   hidden={pages<=1} page={currentPage}  count={pages} color="secondary" onChange={handleChange} />
     </div>
   );
 
 }
 function mapState(state){
-    
     return{
-        //pagesChars:state.characters.pages,
-        //pagesEpis:state.episodes.pages,
-        //pagesLocs:state.locations.pages,
-        //currentSearchChars:state.characters.currentSearch,
-        //searchBy: state.characters.typeSearch,
-        //currentSearchEpis: state.episodes.currentSearch,
-        //currentSearchLocs: state.locations.currentSearch
-        pages:state.search.pages,
-        currentSearch:state.search.currentSearch,
-        typeSearch:state.search.typeSearch,
+        charCurrentSearch:state.search.charCurrentSearch,
+        epiCurrentSearch:state.search.epiCurrentSearch,
+        locCurrentSearch:state.search.locCurrentSearch,
+        charTypeSearch:state.search.charTypeSearch,
+        locTypeSearch:state.search.locTypeSearch,
         filterSearch:state.search.filterSearch
     }
 }
-export default connect(mapState,{getEpisodesAction,getCharactersAction,getLocationsAction,})(CustomPagination);
+export default connect(mapState,{
+  getEpisodesAction,
+  getCharactersAction,
+  getLocationsAction,
+  updateCharCurrentPageAction,
+  updateEpiCurrentPageAction,
+  updateLocCurrentPageAction
+})(CustomPagination);

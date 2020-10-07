@@ -1,4 +1,6 @@
 import {createStore, combineReducers, compose, applyMiddleware} from 'redux';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
 import thunk from 'redux-thunk';
 import charsReducer from './charsDuck.js';
 import locReducer from './locDuck';
@@ -11,16 +13,24 @@ let rootReducer = combineReducers({
 	locations: locReducer,
 	search: searchReducer
 })
+const persistConfig = {
+	key: 'root',
+	storage,
+}
+
 const composeEnhancers= window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 
 export default function generateStore(){
 	let store= createStore(
-		rootReducer, 
+		persistedReducer, 
 		composeEnhancers(applyMiddleware(thunk))
 	)
-	//getCharactersAction()(store.dispatch, store.getState)	//get characters to first time
-	//getEpisodesAction()(store.dispatch, store.getState)	//get Episodes to first time
-	//getLocationsAction()(store.dispatch, store.getState) //get Locations to first time
-	return store
+	let persistor = persistStore(store)
+	return { store, persistor }
 }
+
+
+

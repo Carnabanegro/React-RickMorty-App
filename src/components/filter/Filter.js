@@ -1,52 +1,38 @@
 import React from 'react';
 import {FormControlLabel,FormControl,FormLabel,RadioGroup,Radio,Container} from '@material-ui/core';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {updatePagesSearchAction,updateFilterSearchAction} from '../../redux/searchDuck';
-import {removeCharactersAction} from '../../redux/charsDuck';
-import {removeEpisodesAction} from '../../redux/epiDuck';
-import {removeLocationsAction} from '../../redux/locDuck';
+import {updateFilterSearchAction} from '../../redux/searchDuck';
+import './filter.css';
 
 
 function RadioButtonsGroup({
-  removeCharactersAction,
-  removeEpisodesAction,
-  removeLocationsAction,
   updateFilterSearchAction,
-  updatePagesSearchAction
+  filter,
 }) {
-  let value
-  
   const handleChange = (event) => {
-    value = event.target.value;
-    updateFilterSearchAction(value);
-    updatePagesSearchAction(0)
-    removeLocationsAction();
-    removeCharactersAction();
-    removeEpisodesAction();
+    updateFilterSearchAction(event.target.value);
   };
 
   return (
-      <Container fluid >
+      <Container fluid className="filter-container">
         <FormControl  component="fieldset">
-          <FormLabel color='secondary'  component="legend">What do you want Search?</FormLabel>
-          <RadioGroup  aria-label="gender"  name="gender1" value={value}  onChange={handleChange}>
-            <FormControlLabel  value="characters" control={<Radio component={NavLink} to="characters" />} label="Characters" />
-            <FormControlLabel value="episodes" control={<Radio component={NavLink} to="episodes"  />} label="Episodes" />
-            <FormControlLabel value="locations" control={<Radio component={NavLink} to="locations" />} label="Locations" />
+          <FormLabel   component="legend"><h4 className="filterTitle">What do you want Search?</h4></FormLabel>
+          <RadioGroup defaultValue={filter}  aria-label="gender"  name="gender1"   onChange={handleChange}>
+            <FormControlLabel  value="characters" control={<Radio component={Link} to="/searchPage/characters" />} label="Characters" />
+            <FormControlLabel value="episodes" control={<Radio component={Link} to="/searchPage/episodes"/>} label="Episodes" />
+            <FormControlLabel value="locations" control={<Radio component={Link} to="/searchPage/locations"/>} label="Locations" />
           </RadioGroup>
         </FormControl>
       </Container> 
   );
 }
 
-function mapState({search,characters} ){
-  return 
+function mapState({search} ){
+  return {
+    filter:search.filterSearch
+  }
 }
 export default connect(mapState,{
-  removeLocationsAction,
-  removeEpisodesAction,
-  removeCharactersAction,
   updateFilterSearchAction,
-  updatePagesSearchAction
 })(RadioButtonsGroup)

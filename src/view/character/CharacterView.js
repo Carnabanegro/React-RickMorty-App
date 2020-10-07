@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal,Container, Button} from 'react-bootstrap';
-import {Grid} from '@material-ui/core'
+import '../view.css';
+
 export default function CharacterView({image,name,type,genre,species}) {
 
     const [show, setShow] = React.useState(false);
@@ -11,28 +12,25 @@ export default function CharacterView({image,name,type,genre,species}) {
     return (
         <Container className="charac-view">
             
-            <Button variant="danger" onClick={handleShow}>
+            <Button className="button" onClick={handleShow}>
                 More
             </Button>
 
-            <Modal
+            <Modal 
+              className="modal"
               show={show}
               onHide={handleClose}
               backdrop="static"
               keyboard={false}
               centered
             >
-              <Modal.Header closeButton>
-                <Grid Container  >
-                    <Grid  item  >
-                      <img alt='rick' src={image}/>
-                    </Grid>
-                    <Grid item >
-                      <Modal.Title>{name}</Modal.Title>
-                    </Grid>
-                </Grid>  
+              <Modal.Header closeButton className="modalParts">
+                <Container>
+                  <img alt='rick' src={image} className="img"/>
+                  <Modal.Title className="modalParts">{name}</Modal.Title>   
+                </Container>
               </Modal.Header>
-              <Modal.Body>
+              <Modal.Body className="modalParts">
                 <Modal.Dialog className="charac-data">TYPE: {type}</Modal.Dialog>
                 <Modal.Dialog className="charac-data">GENDER: {genre}</Modal.Dialog>
                 <Modal.Dialog className="charac-data">SPECIES: {species}</Modal.Dialog>

@@ -5,38 +5,81 @@ import { Grid} from '@material-ui/core';
 import {removeCharactersAction,getCharactersAction} from '../../redux/charsDuck';
 import {removeEpisodesAction,getEpisodesAction} from '../../redux/epiDuck';
 import {removeLocationsAction,getLocationsAction} from '../../redux/locDuck';
-import {updateCurrentSearchAction,updateBySearchAction,updatePagesSearchAction} from '../../redux/searchDuck';
+import {
+    updateCharactersCurrentSearchAction,
+    updateEpisodesCurrentSearchAction,
+    updateLocationsCurrentSearchAction,
+    updateCharactersBySearchAction,
+    updateLocationsBySearchAction,
+    updateCharactersPagesSearchAction,
+    updateLocationsPagesSearchAction,
+    updateEpisodesPagesSearchAction,
+    updateCharCurrentPageAction,
+    updateEpiCurrentPageAction,
+    updateLocCurrentPageAction
+} from '../../redux/searchDuck';
 
 
 function Searcher({
-    updateCurrentSearchAction,
-    updateBySearchAction,
-    updatePagesSearchAction,
-    filterSearch,
-    removeEpisodesAction,
-    getEpisodesAction,
+    //// UPDATE PAGES /////
+    updateCharactersPagesSearchAction,
+    updateCharCurrentPageAction,
+    updateLocationsPagesSearchAction,
+    updateLocCurrentPageAction,
+    updateEpisodesPagesSearchAction,
+    updateEpiCurrentPageAction,
+    ////// UPDATE CURRENT ///
+    updateCharactersCurrentSearchAction,
+    updateEpisodesCurrentSearchAction,
+    updateLocationsCurrentSearchAction,
+    //////// UPDATE SELECT SEARCH /////
+    updateCharactersBySearchAction,
+    updateLocationsBySearchAction,
+    /////// ACTIONS CHARS ////////
     getCharactersAction,
     removeCharactersAction,
+    ////// ACTIONS EPIS //////
+    removeEpisodesAction,
+    getEpisodesAction,
+    ////// ACTIONS LOCS//////
+    getLocationsAction,
     removeLocationsAction,
-    getLocationsAction
+    ////// others /////
+    filterSearch,
+    charTypeSearch,
+    locTypeSearch
 }) {
 
     const [input,setInput] = React.useState("");
-    const [select,setSelect] = React.useState("name"); 
-
     function keyHandler(e) {
         if (e.key=== 'Enter'){
+            if (filterSearch === "characters"){
                 removeCharactersAction();
-                removeLocationsAction();
+            }
+            if (filterSearch === "episodes"){
                 removeEpisodesAction();
-                searchHandler();
-                setInput("");  
+            }
+            if (filterSearch === "locations"){
+                removeLocationsAction();
+            }
+            searchHandler();
+            setInput("");
         }
+          
     }
 
     function inputHandler(event) {
         setInput(event.target.value);
-        updateCurrentSearchAction(event.target.value);
+        if (filterSearch === "characters"){
+            updateCharactersCurrentSearchAction(event.target.value);
+        }
+        if (filterSearch === "episodes"){
+            updateEpisodesCurrentSearchAction(event.target.value);
+        }
+        if (filterSearch === "locations"){
+            updateLocationsCurrentSearchAction(event.target.value);
+        }
+        
     }
 
     function searchHandler() {
@@ -57,7 +100,8 @@ function Searcher({
             removeCharactersAction();
         }
         if (input.trim().length >2) {
-                getCharactersAction(1,input,select);
+                getCharactersAction(1,input,charTypeSearch);
+                updateCharCurrentPageAction(1)
         }
     }
 
@@ -66,7 +110,8 @@ function Searcher({
             removeLocationsAction();
         }
         if (input.trim().length >2) {
-                getLocationsAction(1,input,select);
+                getLocationsAction(1,input,locTypeSearch);
+                updateLocCurrentPageAction(1);
         }
     }
 
@@ -76,27 +121,39 @@ function Searcher({
         }
         if (input.trim().length >2) {
                 getEpisodesAction(1,input);
+                updateEpiCurrentPageAction(1);
         }
     }
 
     function cleanHandler(){
         if (filterSearch === "characters") {
             removeCharactersAction();
+            updateCharactersPagesSearchAction(0)
         }
         if (filterSearch === "episodes") {
             removeEpisodesAction();
+            updateEpisodesPagesSearchAction(0)
         }
         if (filterSearch === "locations") {
             removeLocationsAction();
+            updateLocationsPagesSearchAction(0)
         }
         setInput("")
-        updatePagesSearchAction(0)
+        
     }
 
     function handleSelect(event){
-        setSelect(event);
-        updateBySearchAction(event);
         setInput("");
+        if (filterSearch === "characters") {
+            updateCharactersBySearchAction(event);
+            removeCharactersAction();
+            updateCharactersPagesSearchAction(0)  
+        }
+        if (filterSearch === "locations") {
+            updateLocationsBySearchAction(event);
+            removeLocationsAction();
+            updateLocationsPagesSearchAction(0)
+        }
        
     }
     return (
@@ -110,16 +167,16 @@ function Searcher({
                                 value= {input}  
                                 onChange={inputHandler}
                                 onKeyPress={keyHandler}
-                                onReset
                             />
                             <DropdownButton
                                 as={InputGroup.Append}
-                                title={select}
+                                title={filterSearch==="characters"?charTypeSearch:locTypeSearch}
+                                hidden={filterSearch==="episodes"}
                                 onSelect={handleSelect}
                                 variant="danger"
                             >
-                                <Dropdown.Item  eventKey="name"  href="#">Name</Dropdown.Item>
-                                <Dropdown.Item   disabled={filterSearch === "episodes"} eventKey="type" href="#">Type</Dropdown.Item>
+                                <Dropdown.Item   eventKey="name"  href="#">Name</Dropdown.Item>
+                                <Dropdown.Item   eventKey="type" href="#">Type</Dropdown.Item>
                             </DropdownButton>
                         </InputGroup>
                     </Grid >
@@ -134,18 +191,34 @@ function Searcher({
 function mapState({search, characters } ){
     return {
         
-        filterSearch:search.filterSearch
+        filterSearch:search.filterSearch,
+        charTypeSearch:search.charTypeSearch,
+        locTypeSearch:search.locTypeSearch
 
     }
 }
 export default connect(mapState, {
-    updateCurrentSearchAction,
-    updatePagesSearchAction,
-    updateBySearchAction,
-    removeEpisodesAction,
-    getEpisodesAction,
+    //// UPDATE PAGES /////
+    updateCharactersPagesSearchAction,
+    updateCharCurrentPageAction,
+    updateLocationsPagesSearchAction,
+    updateLocCurrentPageAction,
+    updateEpisodesPagesSearchAction,
+    updateEpiCurrentPageAction,
+    ////// UPDATE CURRENT ///
+    updateCharactersCurrentSearchAction,
+    updateEpisodesCurrentSearchAction,
+    updateLocationsCurrentSearchAction,
+    //////// UPDATE SELECT SEARCH /////
+    updateCharactersBySearchAction,
+    updateLocationsBySearchAction,
+    /////// ACTIONS CHARS ////////
     getCharactersAction,
     removeCharactersAction,
+    ////// ACTIONS EPIS //////
+    removeEpisodesAction,
+    getEpisodesAction,
+    ////// ACTIONS LOCS//////
     getLocationsAction,
     removeLocationsAction
 })(Searcher);
