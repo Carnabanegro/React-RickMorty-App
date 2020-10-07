@@ -1,8 +1,23 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Additionally use  react-redux, redux-thunks, redux-persist, apollo-graphql, apollo-boost and react-router, for styling use meterial-ui, reactboostrap, reacstrap, and css.
+
+[Apollo-boost](https://www.npmjs.com/package/apollo-boost).
+[Apollo-Graphql](https://www.apollographql.com/docs/react/).
+[Redux-thunks](https://github.com/reduxjs/redux-thunk).
+[React-redux](https://react-redux.js.org/).
+[Redux-persist](https://github.com/rt2zz/redux-persist).
+[React-router-dom](https://reactrouter.com/web/guides/quick-start).
+[Material-ui](https://material-ui.com/).
+[React-bootstrap](https://react-bootstrap.github.io/).
+[Reactstrap](https://reactstrap.github.io/).
+
+
 ## Available Scripts
+### `git clone (this proyect)`
 
 In the project directory, you can run:
+### `npm install`
 
 ### `npm start`
 

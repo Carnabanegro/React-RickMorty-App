@@ -55,6 +55,7 @@ export let getCharactersAction = (page,value,select) => (dispatch, getState) => 
                     prev
                 }
                 results{
+                    id
                     name
                     image
                     species
@@ -73,6 +74,7 @@ export let getCharactersAction = (page,value,select) => (dispatch, getState) => 
                     prev
                 }
                 results{
+                    id
                     name
                     image
                     species

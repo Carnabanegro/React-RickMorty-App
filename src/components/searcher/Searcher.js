@@ -157,7 +157,7 @@ function Searcher({
        
     }
     return (
-        <Grid container fluid>
+        <Grid container >
             <Grid container item>
                 <Grid container>
                     <Grid container  item xs={11}>

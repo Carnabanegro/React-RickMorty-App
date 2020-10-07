@@ -60,6 +60,7 @@ export let getLocationsAction = (page,value,select) => (dispatch,getState) => {
                   prev
                 }
                 results{
+                  id
                   name
                   type
                   dimension
@@ -81,6 +82,7 @@ export let getLocationsAction = (page,value,select) => (dispatch,getState) => {
                   prev
                 }
                 results{
+                  id
                   name
                   type
                   dimension

@@ -37,7 +37,7 @@ export default function reducer(state=initialData, action){
 	}
 }
 
-//aux
+
 
 //action (thunks)
 
@@ -60,6 +60,7 @@ export let getEpisodesAction = (page,value) => (dispatch,getState) => {
               prev
             }
             results{
+              id
               name
               air_date
               episode

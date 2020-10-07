@@ -15,7 +15,7 @@ function RadioButtonsGroup({
   };
 
   return (
-      <Container fluid className="filter-container">
+      <Container  className="filter-container">
         <FormControl  component="fieldset">
           <FormLabel   component="legend"><h4 className="filterTitle">What do you want Search?</h4></FormLabel>
           <RadioGroup defaultValue={filter}  aria-label="gender"  name="gender1"   onChange={handleChange}>

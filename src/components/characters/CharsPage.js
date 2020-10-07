@@ -28,8 +28,8 @@ function CharsPage({
                     <div>
                         <Grid container xs={12} justify="flex-start" >
                             {chars.map((value)=>
-                                <Grid item>
-                                    <CardCharacter  
+                                <Grid  key={value.id}  item>
+                                    <CardCharacter 
                                         name={value.name} 
                                         type={value.type} 
                                         species={value.species} 
@@ -38,9 +38,9 @@ function CharsPage({
                                     />
                                 </Grid>)}
                         </Grid>
-                        <Grid  item xs={12} direction="row" justify="center" alignItems="flex-start">
+                        <Grid  item xs={12}  >
                             <CustomPagination pages={charPages} currentPage={charCurrentPage} />
-                            </Grid>
+                        </Grid>
                 
                     </div>
             
