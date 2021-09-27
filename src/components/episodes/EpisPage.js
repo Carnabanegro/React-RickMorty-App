@@ -26,7 +26,7 @@ function EpisPage({
         }else{
 
         return (
-            <Grid container   justify="flex-start">
+            <Grid container   justify="flex-start" >
                 <Grid container item xs={12} spacing={3}>
                         {epis.map((value)=>
                                 <Grid container key={value.id} item>

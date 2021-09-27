@@ -16,8 +16,7 @@ export default function CharacterView({image,name,type,genre,species}) {
                 More
             </Button>
 
-            <Modal 
-              className="modal"
+            <Modal
               show={show}
               onHide={handleClose}
               backdrop="static"

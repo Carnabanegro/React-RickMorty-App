@@ -7,3 +7,8 @@
 .errorMessage{
     color:#10ac84
 }
+
+.searchPageContainer{
+    display: flex;
+    flex-direction: column;
+}

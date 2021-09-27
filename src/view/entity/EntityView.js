@@ -33,7 +33,7 @@ export default function EntityView({chars,data1,data2,data3, tittle1, tittle2}) 
                   {chars.slice(0, 5).map((value)=>
                     <Grid  key={value} spacing={1} item>
                         <Card>
-                            <CardImg src={value.image}/>
+                            <CardImg src={value.image} className="img"/>
                             <CardBody>
                               <CardTitle>
                                 {value.name}

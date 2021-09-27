@@ -1,5 +1,6 @@
 import React from 'react';
-import {FormControlLabel,FormControl,FormLabel,RadioGroup,Radio,Container} from '@material-ui/core';
+import {FormControlLabel,FormControl,FormLabel,RadioGroup,Radio} from '@material-ui/core';
+import {Container, Row, Col} from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {updateFilterSearchAction} from '../../redux/searchDuck';
@@ -15,15 +16,19 @@ function RadioButtonsGroup({
   };
 
   return (
-      <Container  className="filter-container">
-        <FormControl  component="fieldset">
-          <FormLabel   component="legend"><h4 className="filterTitle">What do you want Search?</h4></FormLabel>
-          <RadioGroup defaultValue={filter}  aria-label="gender"  name="gender1"   onChange={handleChange}>
-            <FormControlLabel  value="characters" control={<Radio component={Link} to="/searchPage/characters" />} label="Characters" />
-            <FormControlLabel value="episodes" control={<Radio component={Link} to="/searchPage/episodes"/>} label="Episodes" />
-            <FormControlLabel value="locations" control={<Radio component={Link} to="/searchPage/locations"/>} label="Locations" />
-          </RadioGroup>
-        </FormControl>
+      <Container fluid={true}  className="filter-container">
+        <Row>
+          <Col>
+            <FormControl  component="fieldset">
+              <FormLabel component="legend"><h4 className="filterTitle">What do you want Search?</h4></FormLabel>
+              <RadioGroup defaultValue={filter}  aria-label="gender"  name="gender1"   onChange={handleChange}>
+                <FormControlLabel  value="characters" control={<Radio color="dark" component={Link} to="/searchPage/characters" />} label="Characters" />
+                <FormControlLabel value="episodes" control={<Radio color="dark" component={Link} to="/searchPage/episodes"/>} label="Episodes" />
+                <FormControlLabel value="locations" control={<Radio color="dark" component={Link} to="/searchPage/locations"/>} label="Locations" />
+              </RadioGroup>
+            </FormControl>
+          </Col>
+        </Row>
       </Container> 
   );
 }

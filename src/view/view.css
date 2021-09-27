@@ -5,9 +5,7 @@
     font-weight: 500;
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
-.modal{
-    background-color: #ffffff;
-}
+
 .modalParts{
     background-color: #dc004e;
     color:#ffffff ;
@@ -17,10 +15,10 @@
     background-color:#ffffff ;
     color:#dc004e;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    border-color: #3742fa;
-    border-style: solid;
+    border-color: #CBCBCD;
+    border-style: inset;
 }
 .img{
-    border-color:#3742fa ;
-    border-style: solid;
+    border-color:#CBCBCD ;
+    border-style: inset;
 }

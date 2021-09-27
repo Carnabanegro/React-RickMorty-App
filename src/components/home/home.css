@@ -1,0 +1,22 @@
+.homeContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 55px;
+}
+
+.image{
+    margin-bottom: 6em;
+}
+.tittle{
+    margin-bottom: 1em;
+}
+.subtittle{
+    margin-bottom: 4em;
+}
+.iconBox{
+    padding: 0 50px 0 50px;
+}
+.icon{
+     width: 80px;
+}

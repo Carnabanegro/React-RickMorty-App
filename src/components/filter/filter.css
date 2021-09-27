@@ -1,3 +1,15 @@
+.filter-container{
+    display: flex;
+    background: #dc004e;
+    padding-top: 10px;
+}
+@media (min-width: 767px) {
+    .filter-container{
+        min-height: 100vh;
+        height: 100%;
+    }
+}
+
 .filterTitle{
     color:#1e272e;
     font-size: 5mm;
